@@ -67,5 +67,45 @@ For more examples and ideas, visit:
   3) HD I/O
   4) Network Bendwidth
 
+* Image and Container
+
+Container is a running instance of a Docker Image.
+
+* Docker server (engine) runs on Windows on Linux virtual machine 
 
 
+* ducker run command
+
+** docker run busybox echo hello there
+
+- Command "echo hello there" will overwrite the default command 
+
+#+BEGIN_SRC bash
+# docker run busybox echo hi Alex
+# docker run busybox echo hi Alex
+$ docker run busybox echo hi Alex
+Unable to find image 'busybox:latest' locally
+latest: Pulling from library/busybox
+50783e0dfb64: Pull complete 
+Digest: sha256:ef320ff10026a50cf5f0213d35537ce0041ac1d96e9b7800bafd8bc9eff6c693
+Status: Downloaded newer image for busybox:latest
+hi Alex
+
+#+END_SRC
+
+- another example using ls
+
+ <-  [20220824T053942]
+$ docker run busybox ls
+bin
+dev
+etc
+home
+proc
+root
+sys
+tmp
+usr
+var
+
+** 
