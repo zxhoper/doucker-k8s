@@ -1,4 +1,7 @@
-* 
+#+TITLE:Basic Docker
+
+
+* Docker run 
 
 [docker run] = [docker create] + [docker start]
 
@@ -47,6 +50,22 @@ For more examples and ideas, visit:
  https://docs.docker.com/get-started/
 #+END_SRC
 
+
+* Namespacing and Control Groups
+
+- Namespacing (Isolating resources per process (or group of processes)
+  1) Processes
+  2) Hard drive
+  3) Network
+  4) Users
+  5) Hostnames
+  6) Inter Process Communication
+
+- Control Groups (Limit amount of resources used per process)
+  1) Memoy
+  2) CPU Usage
+  3) HD I/O
+  4) Network Bendwidth
 
 
 
