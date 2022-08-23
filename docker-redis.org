@@ -136,7 +136,7 @@ CMD ["redis-server"]
 - https://hub.docker.com/_/redis
 
 
-- start a redis instance
+*** start a redis instance
 
 $ docker run --name some-redis -d redis
 
@@ -166,3 +166,23 @@ CONTAINER ID   IMAGE     COMMAND                  CREATED          STATUS       
 65a3a551bceb   mysql     "docker-entrypoint.s…"   11 hours ago     Up 11 hours     0.0.0.0:3306->3306/tcp, :::3306->3306/tcp, 33060/tcp   b-mysql
 
 #+END_SRC
+
+*** start with persistent storage
+
+$ docker run --name some-redis -d redis redis-server --save 60 1 --loglevel warning
+
+There are several different persistence strategies to choose from. This one will save a snapshot of the DB every 60 seconds if at least 1 write operation was performed (it will also lead to more logs, so the loglevel option may be desirable). If persistence is enabled, data is stored in the VOLUME /data, which can be used with --volumes-from some-volume-container or -v /docker/host/dir:/data (see docs.docker volumes).
+
+For more about Redis Persistence, see http://redis.io/topics/persistence.
+
+*** connecting via redis-cli
+
+$ docker run -it --network some-network --rm redis redis-cli -h some-redis
+
+
+
+docker run --name my-redis -p 6379:6379 -d redis
+
+
+
+
