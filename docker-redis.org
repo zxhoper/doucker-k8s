@@ -1,41 +1,8 @@
 #+TITLE:Docker and kubernates
 
-* Docker run mysql
-- MySql in docker success.
-<2022-08-23 Tue 22:05>
-#+BEGIN_SRC bash
-
-  #_#  docker system prune -a
- 1076  docker system prune -a
-
- 
-  #_#  docker run --name mysql -e MYSQL_ROOT_PASSWORD=Abcd1234 -p 3306:3306 -d mysql 
- 1094  docker run --name mysql -e MYSQL_ROOT_PASSWORD=Abcd1234 -p 3306:3306 -d mysql 
-
- 1096  docker image ls
- 1097  docker container ls
- 1098  docker start --name b-mysql -e MYSQL_ROOT_PASSWORD=Abcd1234 -p 3306:3306 -d mysql
- 1099  docker run --name b-mysql -e MYSQL_ROOT_PASSWORD=Abcd1234 -p 3306:3306 -d mysql
- 1100  docker ps
- 1101  docker run -it --rm mysql mysql -hb-mysql -uroot -p
- 1102  sudo lsof -i -P -n | grep LISTEN
-
-
-##### Don't have to install mysql locally , can use command 1114 to issue "mysql -p" from docker cli
- 1107  sudo yum install mysql
- 1111  mysql --host=127.0.0.1 --protocol=TCP  --user=root -p
-##### ------------------------------------------------------------
-
-
-  # Start another command in the same container to exec "mysql -p" command
-  #_#  docker exec -it 65a3a551bceb mysql -p
- 1114  docker exec -it 65a3a551bceb mysql -p
-
-#+END_SRC
-
-
 
 * Run Redis in Docker
+<2022-08-23 Tue 22:25>
 
 ** The Dockerfile 
 - https://hub.docker.com/_/redis
@@ -172,3 +139,30 @@ CMD ["redis-server"]
 - start a redis instance
 
 $ docker run --name some-redis -d redis
+
+#+BEGIN_SRC bash
+<-    -    -    -   [20220823T221954]
+$ docker run --name some-redis -d redis
+Unable to find image 'redis:latest' locally
+latest: Pulling from library/redis
+7a6db449b51b: Pull complete 
+05b1f5f3b2c0: Pull complete 
+f0036f71a6fe: Pull complete 
+cd7ddcecb993: Pull complete 
+8cfc9a467ed7: Pull complete 
+2a9998409df9: Pull complete 
+Digest: sha256:5e804d8a4cd44c86d1933432ab9809487c7bf7c3e7e325c0f722d9b5b3bd542b
+Status: Downloaded newer image for redis:latest
+111a123c5ec8b9a90800dec92c30c17a5432ba2c0834e07fcc9a98338bfc58e2
+ <-    -    -    -   [20220823T222039]
+$ docker image ls
+REPOSITORY   TAG       IMAGE ID       CREATED       SIZE
+redis        latest    dc7b40a0b05d   4 hours ago   117MB
+mysql        latest    7b94cda7ffc7   2 weeks ago   446MB
+ <-    -    -    -   [20220823T223126]
+$ docker container ls
+CONTAINER ID   IMAGE     COMMAND                  CREATED          STATUS          PORTS                                                  NAMES
+111a123c5ec8   redis     "docker-entrypoint.s…"   10 minutes ago   Up 10 minutes   6379/tcp                                               some-redis
+65a3a551bceb   mysql     "docker-entrypoint.s…"   11 hours ago     Up 11 hours     0.0.0.0:3306->3306/tcp, :::3306->3306/tcp, 33060/tcp   b-mysql
+
+#+END_SRC
