@@ -1,7 +1,8 @@
 #+TITLE:Basic Docker
 
+* Basic Docker
 
-* Docker run 
+** Docker run 
 
 [docker run] = [docker create] + [docker start]
 
@@ -51,7 +52,7 @@ For more examples and ideas, visit:
 #+END_SRC
 
 
-* Namespacing and Control Groups
+** Namespacing and Control Groups
 
 - Namespacing (Isolating resources per process (or group of processes)
   1) Processes
@@ -67,14 +68,14 @@ For more examples and ideas, visit:
   3) HD I/O
   4) Network Bendwidth
 
-* Image and Container
+** Image and Container
 
 Container is a running instance of a Docker Image.
 
-* Docker server (engine) runs on Windows on Linux virtual machine 
+** Docker server (engine) runs on Windows on Linux virtual machine 
 
 
-* ducker run command
+** ducker run command
 
 ** docker run busybox echo hello there
 
@@ -108,4 +109,363 @@ tmp
 usr
 var
 
-** 
+** Docker run busybox ping google.com
+
+#+BEGIN_SRC bash
+ <-    -    -    -    -  [20220824T054242]
+$ docker run busybox ping google.com
+PING google.com (172.217.163.46): 56 data bytes
+64 bytes from 172.217.163.46: seq=0 ttl=111 time=31.392 ms
+64 bytes from 172.217.163.46: seq=1 ttl=111 time=41.030 ms
+64 bytes from 172.217.163.46: seq=2 ttl=111 time=40.377 ms
+64 bytes from 172.217.163.46: seq=3 ttl=111 time=31.794 ms
+64 bytes from 172.217.163.46: seq=4 ttl=111 time=40.580 ms
+...
+#+END_SRC
+
+- in another terminal
+#+BEGIN_SRC bash
+/dfile/   <-    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -  [20220824T054626]
+$ docker ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS         PORTS                                                  NAMES
+7b26b3eaabee   busybox   "ping google.com"        5 seconds ago   Up 5 seconds                                                          quizzical_grothendieck
+
+#+END_SRC
+
+** docker ps --all
+List all cammands ever issued
+#+BEGIN_SRC bash
+/dfile/   <-    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -  [20220824T054814]
+$ docker ps --all
+CONTAINER ID   IMAGE          COMMAND                  CREATED              STATUS                      PORTS                                                  NAMES
+7b26b3eaabee   busybox        "ping google.com"        About a minute ago   Up About a minute                                                                  quizzical_grothendieck
+19233e061ae2   busybox        "ping google.com"        3 minutes ago        Exited (0) 2 minutes ago                                                           loving_tereshkova
+9bd74eedbc66   busybox        "ls"                     5 minutes ago        Exited (0) 5 minutes ago                                                           amazing_goldstine
+bccfebf8e44e   busybox        "echo hi Alex"           8 minutes ago        Exited (0) 8 minutes ago                                                           funny_meninsky
+1ed0f62e075f   hello-world    "/hello"                 32 minutes ago       Exited (0) 31 minutes ago                                                          sleepy_sanderson
+dfa58d936f78   hello-world    "/hello"                 5 hours ago          Exited (0) 5 hours ago                                                             infallible_hofstadter
+2f1981093fb0   redis          "docker-entrypoint.s…"   5 hours ago          Exited (0) 5 hours ago                                                             my-redis
+111a123c5ec8   redis          "docker-entrypoint.s…"   7 hours ago          Exited (0) 5 hours ago                                                             some-redis
+65a3a551bceb   mysql          "docker-entrypoint.s…"   19 hours ago         Up 19 hours                 0.0.0.0:3306->3306/tcp, :::3306->3306/tcp, 33060/tcp   b-mysql
+9a0957ee9563   mysql          "docker-entrypoint.s…"   19 hours ago         Exited (0) 19 hours ago                                                            mysql
+7e4525c0099a   7b94cda7ffc7   "docker-entrypoint.s…"   19 hours ago         Exited (1) 19 hours ago                                                            kind_chatelet
+fd545d1d8a3b   7b94cda7ffc7   "docker-entrypoint.s…"   19 hours ago         Exited (1) 19 hours ago                                                            pedantic_haibt
+b5bf13e909c3   7b94cda7ffc7   "docker-entrypoint.s…"   19 hours ago         Exited (1) 19 hours ago                                                            eloquent_gauss
+95d039a21003   7b94cda7ffc7   "docker-entrypoint.s…"   19 hours ago         Exited (1) 19 hours ago                                                            loving_jang
+9ff9a5b1c220   mysql          "docker-entrypoint.s…"   19 hours ago         Exited (1) 19 hours ago                                                            hh-mysql
+#+END_SRC
+
+** Live cycle of container
+
+docker =run= = docker =create= + docker =start=
+
+** docker create
+
+- docker create hello-world
+- docker start -a ...
+#+BEGIN_SRC bash
+ <-    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -  [20220824T055147]
+$ docker create hello-world
+cc87101826ba0d0f6509360f6fb6a6435edddb88a7b078fba720872b351da595
+dfile/   <-    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -  [20220824T055239]
+$ docker start -a cc87101826ba0d0f6509360f6fb6a6435edddb88a7b078fba720872b351da595
+
+Hello from Docker!
+This message shows that your installation appears to be working correctly.
+
+To generate this message, Docker took the following steps:
+ 1. The Docker client contacted the Docker daemon.
+ 2. The Docker daemon pulled the "hello-world" image from the Docker Hub.
+    (amd64)
+ 3. The Docker daemon created a new container from that image which runs the
+    executable that produces the output you are currently reading.
+ 4. The Docker daemon streamed that output to the Docker client, which sent it
+    to your terminal.
+
+To try something more ambitious, you can run an Ubuntu container with:
+ $ docker run -it ubuntu bash
+
+Share images, automate workflows, and more with a free Docker ID:
+ https://hub.docker.com/
+
+For more examples and ideas, visit:
+ https://docs.docker.com/get-started/
+#+END_SRC
+
+** docker start => run the container which has been created the second time WILL NOT over write the default command  
+
+#+BEGIN_SRC bash
+dfile/   <-    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -  [20220824T055516]
+$ docker run busybox echo "new echo"
+new echo
+dfile/   <-    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -  [20220824T055546]
+$ docker ps --all
+CONTAINER ID   IMAGE          COMMAND                  CREATED          STATUS                      PORTS                                                  NAMES
+d27e4bead986   busybox        "echo 'new echo'"        11 seconds ago   Exited (0) 11 seconds ago                                                          romantic_dijkstra
+cc87101826ba   hello-world    "/hello"                 3 minutes ago    Exited (0) 2 minutes ago                                                           angry_chaum
+7b26b3eaabee   busybox        "ping google.com"        9 minutes ago    Exited (0) 4 minutes ago                                                           quizzical_grothendieck
+19233e061ae2   busybox        "ping google.com"        10 minutes ago   Exited (0) 10 minutes ago                                                          loving_tereshkova
+9bd74eedbc66   busybox        "ls"                     13 minutes ago   Exited (0) 13 minutes ago                                                          amazing_goldstine
+bccfebf8e44e   busybox        "echo hi Alex"           16 minutes ago   Exited (0) 16 minutes ago                                                          funny_meninsky
+1ed0f62e075f   hello-world    "/hello"                 39 minutes ago   Exited (0) 39 minutes ago                                                          sleepy_sanderson
+dfa58d936f78   hello-world    "/hello"                 5 hours ago      Exited (0) 5 hours ago                                                             infallible_hofstadter
+2f1981093fb0   redis          "docker-entrypoint.s…"   5 hours ago      Exited (0) 5 hours ago                                                             my-redis
+111a123c5ec8   redis          "docker-entrypoint.s…"   8 hours ago      Exited (0) 5 hours ago                                                             some-redis
+65a3a551bceb   mysql          "docker-entrypoint.s…"   19 hours ago     Up 19 hours                 0.0.0.0:3306->3306/tcp, :::3306->3306/tcp, 33060/tcp   b-mysql
+9a0957ee9563   mysql          "docker-entrypoint.s…"   19 hours ago     Exited (0) 19 hours ago                                                            mysql
+7e4525c0099a   7b94cda7ffc7   "docker-entrypoint.s…"   19 hours ago     Exited (1) 19 hours ago                                                            kind_chatelet
+fd545d1d8a3b   7b94cda7ffc7   "docker-entrypoint.s…"   19 hours ago     Exited (1) 19 hours ago                                                            pedantic_haibt
+b5bf13e909c3   7b94cda7ffc7   "docker-entrypoint.s…"   19 hours ago     Exited (1) 19 hours ago                                                            eloquent_gauss
+95d039a21003   7b94cda7ffc7   "docker-entrypoint.s…"   19 hours ago     Exited (1) 19 hours ago                                                            loving_jang
+9ff9a5b1c220   mysql          "docker-entrypoint.s…"   19 hours ago     Exited (1) 19 hours ago                                                            hh-mysql
+dfile/   <-    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -  [20220824T055556]
+$ docker start d27e4bead986
+d27e4bead986
+dfile/   <-    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -  [20220824T055626]
+$ docker start -a d27e4bead986
+new echo
+dfile/   <-    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -  [20220824T055639]
+$ docker start -a d27e4bead986 echo "This will not work"
+you cannot start and attach multiple containers at once
+#+END_SRC
+
+
+** docker system prune
+- remove:
+  - all stopped containers
+  - all networks not used by at least one container
+  - all dangling images
+  - all dangling build cache
+#+BEGIN_SRC bash
+
+dfile/   <-    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -  [20220824T055144]
+$ docker ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED        STATUS        PORTS                                                  NAMES
+65a3a551bceb   mysql     "docker-entrypoint.s…"   19 hours ago   Up 19 hours   0.0.0.0:3306->3306/tcp, :::3306->3306/tcp, 33060/tcp   b-mysql
+dfile/   <-    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -  [20220824T061916]
+$ docker image ls
+REPOSITORY    TAG       IMAGE ID       CREATED         SIZE
+redis         latest    dc7b40a0b05d   11 hours ago    117MB
+mysql         latest    7b94cda7ffc7   2 weeks ago     446MB
+busybox       latest    7a80323521cc   3 weeks ago     1.24MB
+hello-world   latest    feb5d9fea6a5   11 months ago   13.3kB
+dfile/   <-    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -  [20220824T061923]
+$ docker system prune
+WARNING! This will remove:
+  - all stopped containers
+  - all networks not used by at least one container
+  - all dangling images
+  - all dangling build cache
+
+Are you sure you want to continue? [y/N] y
+Deleted Containers:
+d27e4bead986beb940f55e611b2b7c2a84eb14ba4d3bd00f0ad5044b0fbdde68
+cc87101826ba0d0f6509360f6fb6a6435edddb88a7b078fba720872b351da595
+7b26b3eaabeeeb5b1e0e96993b4e654b2942934e6296ff304c5ff4b78b5054b1
+19233e061ae204c89025a1eb8d6bb2978d2ea6a6d6d694a098fad4a2b15dacc5
+9bd74eedbc6669ab8f4adf28de1d2400caf06012720612515277d42e87003a26
+bccfebf8e44e0567e6716c989c9c1e3847d49e58680b1350b05faf3aa2988daa
+1ed0f62e075fdfdb7fd7e0291c597af39b351bb3e1e0f259118785a86478ad5d
+dfa58d936f7893e4d551e4a453e3432823f08121954cbdffe19b554bc64d09e7
+2f1981093fb079bb1504038dcc7c6cd80c89fc81ae8b726bdab0920d6ab4d985
+111a123c5ec8b9a90800dec92c30c17a5432ba2c0834e07fcc9a98338bfc58e2
+9a0957ee95636af638ae43df64de720e63f310396cec1a0efdbaa75b7f211534
+7e4525c0099add414564bf4617d16dc9ec288805f5404ab9cf56e49491aae085
+fd545d1d8a3b3bda16d920685124bf3dbfe30258aba9834d13385dee2c5c350c
+b5bf13e909c32a5299e61c7500b64c5a78f76b55a28f593bb5addb8127eeb534
+95d039a2100307e1919b91cb363c655282029b3ce055dcd60a7c732a815c82d7
+9ff9a5b1c2205728d41dae44c33668336c1c176dfa17f25e18420ba04739bdb4
+
+Total reclaimed space: 42B
+dfile/   <-    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -  [20220824T061941]
+$ docker ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED        STATUS        PORTS                                                  NAMES
+65a3a551bceb   mysql     "docker-entrypoint.s…"   19 hours ago   Up 19 hours   0.0.0.0:3306->3306/tcp, :::3306->3306/tcp, 33060/tcp   b-mysql
+dfile/   <-    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -  [20220824T061948]
+$ docker image ls
+REPOSITORY    TAG       IMAGE ID       CREATED         SIZE
+redis         latest    dc7b40a0b05d   11 hours ago    117MB
+mysql         latest    7b94cda7ffc7   2 weeks ago     446MB
+busybox       latest    7a80323521cc   3 weeks ago     1.24MB
+hello-world   latest    feb5d9fea6a5   11 months ago   13.3kB
+dfile/   <-    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -  [20220824T061951]
+$ docker container ls
+CONTAINER ID   IMAGE     COMMAND                  CREATED        STATUS        PORTS                                                  NAMES
+65a3a551bceb   mysql     "docker-entrypoint.s…"   19 hours ago   Up 19 hours   0.0.0.0:3306->3306/tcp, :::3306->3306/tcp, 33060/tcp   b-mysql
+^_^
+#+END_SRC
+
+
+
+** docker logs
+- Getting all record inside the container without run it 
+
+#+BEGIN_SRC bash
+dfile/   <-    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -  [20220824T062329]
+$ docker create busybox echo Test-FORGET-USE--s-flag
+4288bb7c4b72ba52bfab3dd7d477128fdcd3bd43e7677db7d8decbac1a639050
+dfile/   <-    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -  [20220824T062348]
+$ doaker start 4288bb7c4b72ba52bfab3dd7d477128fdcd3bd43e7677db7d8decbac1a639050
+bash: doaker: command not found...
+Q_Qhbc@localhost:/home/hbc/dfile/   <-    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -  [20220824T062358]
+$ docker start 4288bb7c4b72ba52bfab3dd7d477128fdcd3bd43e7677db7d8decbac1a639050
+4288bb7c4b72ba52bfab3dd7d477128fdcd3bd43e7677db7d8decbac1a639050
+dfile/   <-    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -  [20220824T062405]
+$ docker logs 4288bb7c4b72ba52bfab3dd7d477128fdcd3bd43e7677db7d8decbac1a639050
+Test-FORGET-USE--s-flag
+#+END_SRC
+
+
+** docker stop CONTAINER and docker kill CONTAINER
+
+- docker stop => send [SIGTERM] =>give it a little bit time to gracefully exit
+
+- docker kill => send [SIGKILL] => kill it right now
+
+#+BEGIN_SRC bash
+dfile/   <-    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -  [20220824T060055]
+$ docker ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED          STATUS          PORTS                                                  NAMES
+46f5a325ea98   busybox   "ping google.com"        18 seconds ago   Up 16 seconds                                                          amazing_keldysh
+65a3a551bceb   mysql     "docker-entrypoint.s…"   19 hours ago     Up 19 hours     0.0.0.0:3306->3306/tcp, :::3306->3306/tcp, 33060/tcp   b-mysql
+dfile/   <-    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -  [20220824T063011]
+# This take for 7 seconds or so
+$ docker stop 46f5a325ea98
+46f5a325ea98
+dfile/   <-    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -  [20220824T063032]
+$ docker ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS         PORTS                                                  NAMES
+3728f124b94a   busybox   "ping google.com"        6 seconds ago   Up 5 seconds                                                          mystifying_bhaskara
+65a3a551bceb   mysql     "docker-entrypoint.s…"   19 hours ago    Up 19 hours    0.0.0.0:3306->3306/tcp, :::3306->3306/tcp, 33060/tcp   b-mysql
+dfile/   <-    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -  [20220824T063050]
+# This is quick
+$ docker kill 3728f124b94a
+3728f124b94a
+#+END_SRC
+
+** docker exec -it <container id> <command>
+
+- man docker-exec
+- docker-exec - Run a command in a running container
+       -i, --interactive[=false]      Keep STDIN open even if not attached
+       -t, --tty[=false]      Allocate a pseudo-TTY
+
+#+BEGIN_SRC bash
+DOCKER(1)                                                     Docker User Manuals                                                     DOCKER(1)
+
+NAME
+       docker-exec - Run a command in a running container
+
+SYNOPSIS
+       docker exec [OPTIONS] CONTAINER COMMAND [ARG...]
+
+DESCRIPTION
+       Alias for docker container exec.
+
+OPTIONS
+       -d, --detach[=false]      Detached mode: run command in the background
+
+       --detach-keys=""      Override the key sequence for detaching a container
+
+       -e, --env=      Set environment variables
+
+       --env-file=      Read in a file of environment variables
+
+       -h, --help[=false]      help for exec
+
+       -i, --interactive[=false]      Keep STDIN open even if not attached
+
+       --privileged[=false]      Give extended privileges to the command
+
+       -t, --tty[=false]      Allocate a pseudo-TTY
+
+       -u, --user=""      Username or UID (format: [:])
+
+       -w, --workdir=""      Working directory inside the container
+
+SEE ALSO
+       docker(1)
+#+END_SRC
+
+
+** docker run redis
+- docker run redis
+#+BEGIN_SRC bash
+dfile/   <-    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -  [20220824T063550]
+$ docker run redis
+1:C 23 Aug 2022 22:35:57.445 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+1:C 23 Aug 2022 22:35:57.445 # Redis version=7.0.4, bits=64, commit=00000000, modified=0, pid=1, just started
+1:C 23 Aug 2022 22:35:57.445 # Warning: no config file specified, using the default config. In order to specify a config file use redis-server /path/to/redis.conf
+1:M 23 Aug 2022 22:35:57.445 * monotonic clock: POSIX clock_gettime
+1:M 23 Aug 2022 22:35:57.446 * Running mode=standalone, port=6379.
+1:M 23 Aug 2022 22:35:57.447 # WARNING: The TCP backlog setting of 511 cannot be enforced because /proc/sys/net/core/somaxconn is set to the lower value of 128.
+1:M 23 Aug 2022 22:35:57.447 # Server initialized
+1:M 23 Aug 2022 22:35:57.447 # WARNING overcommit_memory is set to 0! Background save may fail under low memory condition. To fix this issue add 'vm.overcommit_memory = 1' to /etc/sysctl.conf and then reboot or run the command 'sysctl vm.overcommit_memory=1' for this to take effect.
+1:M 23 Aug 2022 22:35:57.447 * Ready to accept connections
+
+#+END_SRC
+
+
+- Other Terminal
+  - docker exec -it CONTAINER redis-cli
+#+BEGIN_SRC bash
+dfile/   <-    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -  [20220824T063655]
+$ docker ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED              STATUS              PORTS                                                  NAMES
+72d9da1ac29e   redis     "docker-entrypoint.s…"   About a minute ago   Up About a minute   6379/tcp                                               hardcore_cartwright
+
+docker ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED              STATUS              PORTS                                                  NAMES
+72d9da1ac29e   redis     "docker-entrypoint.s…"   About a minute ago   Up About a minute   6379/tcp                                               hardcore_cartwright
+65a3a551bceb   mysql     "docker-entrypoint.s…"   20 hours ago         Up 20 hours         0.0.0.0:3306->3306/tcp, :::3306->3306/tcp, 33060/tcp   b-mysql
+^_^hbc@localhost:/home/hbc/dfile/   <-    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -  [20220824T063659]
+
+# docker exec -it 72d9da1ac29e redis-cli
+$ docker exec -it 72d9da1ac29e redis-cli
+127.0.0.1:6379> set this works!
+OK
+127.0.0.1:6379> get this
+"works!"
+127.0.0.1:6379> 
+
+#+END_SRC
+
+- docker exec -it <container> sh
+#+BEGIN_SRC bash
+^_^hbc@localhost:/home/hbc/dfile/   <-    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -  [20220824T064521]
+$ docker exec -it 72d9da1ac29e sh
+# ls
+# pwd
+/data
+# cd / 
+# ls
+bin  boot  data  dev  etc  home  lib  lib64  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
+# 
+#+END_SRC
+
+** docker run -ir busybox sh
+- Starting with a shell
+
+** Container Isolation
+
+
+
+
+
+
+
+
+
+
+
+
+^_^hbc@localhost:/home/hbc/dfile/   <-    -    -  
+
+
+
+
+
+
+
+
+
