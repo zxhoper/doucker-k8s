@@ -1,1 +1,36 @@
 #+TITLE:Docker and kubernates
+
+* Docker run mysql
+- MySql in docker success.
+<2022-08-23 Tue 22:05>
+#+BEGIN_SRC bash
+
+  #_#  docker system prune -a
+ 1076  docker system prune -a
+
+ 
+  #_#  docker run --name mysql -e MYSQL_ROOT_PASSWORD=Abcd1234 -p 3306:3306 -d mysql 
+ 1094  docker run --name mysql -e MYSQL_ROOT_PASSWORD=Abcd1234 -p 3306:3306 -d mysql 
+
+ 1096  docker image ls
+ 1097  docker container ls
+ 1098  docker start --name b-mysql -e MYSQL_ROOT_PASSWORD=Abcd1234 -p 3306:3306 -d mysql
+ 1099  docker run --name b-mysql -e MYSQL_ROOT_PASSWORD=Abcd1234 -p 3306:3306 -d mysql
+ 1100  docker ps
+ 1101  docker run -it --rm mysql mysql -hb-mysql -uroot -p
+ 1102  sudo lsof -i -P -n | grep LISTEN
+
+
+##### Don't have to install mysql locally , can use command 1114 to issue "mysql -p" from docker cli
+ 1107  sudo yum install mysql
+ 1111  mysql --host=127.0.0.1 --protocol=TCP  --user=root -p
+##### ------------------------------------------------------------
+
+
+  # Start another command in the same container to exec "mysql -p" command
+  #_#  docker exec -it 65a3a551bceb mysql -p
+ 1114  docker exec -it 65a3a551bceb mysql -p
+
+#+END_SRC
+
+
