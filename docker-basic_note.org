@@ -307,7 +307,7 @@ $ docker create busybox echo Test-FORGET-USE--s-flag
 dfile/   <-    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -  [20220824T062348]
 $ doaker start 4288bb7c4b72ba52bfab3dd7d477128fdcd3bd43e7677db7d8decbac1a639050
 bash: doaker: command not found...
-Q_Qhbc@localhost:/home/hbc/dfile/   <-    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -  [20220824T062358]
+Q_Q/dfile/   <-    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -  [20220824T062358]
 $ docker start 4288bb7c4b72ba52bfab3dd7d477128fdcd3bd43e7677db7d8decbac1a639050
 4288bb7c4b72ba52bfab3dd7d477128fdcd3bd43e7677db7d8decbac1a639050
 dfile/   <-    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -  [20220824T062405]
@@ -702,7 +702,7 @@ hello-world         latest    feb5d9fea6a5   11 months ago        13.3kB
 $ docker start 841e6e25188319211a24d14d
 Error response from daemon: No such container: 841e6e25188319211a24d14d
 Error: failed to start containers: 841e6e25188319211a24d14d
-Q_Qhbc@localhost:/home/hbc/dfile/   <-    -    -    -    -    -    -    -    -    -    -    -    -  [20220824T073739]
+Q_Q/dfile/   <-    -    -    -    -    -    -    -    -    -    -    -    -  [20220824T073739]
 $ docker run 841e6e25188319211a24d14d
 1:C 23 Aug 2022 23:37:47.896 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
 1:C 23 Aug 2022 23:37:47.896 # Redis version=7.0.4, bits=64, commit=4bd17450, modified=0, pid=1, just started
@@ -760,10 +760,10 @@ CMD ["npm", "start"]
 
 - try to buid
 #+BEGIN_SRC bash 
-^_^hbc@localhost:/home/hbc/dfile/simpleweb/   <-    -    -    -    -    -    -    -    -    -    -  [20220824T075258]
+^_^/dfile/simpleweb/   <-    -    -    -    -    -    -    -    -    -    -  [20220824T075258]
 $ ls
 Dockerfile  index.js  package.json
-^_^hbc@localhost:/home/hbc/dfile/simpleweb/   <-    -    -    -    -    -    -    -    -    -    -  [20220824T075738]
+^_^/dfile/simpleweb/   <-    -    -    -    -    -    -    -    -    -    -  [20220824T075738]
 $ docker build .
 Sending build context to Docker daemon  4.096kB
 Step 1/3 : FROM alpine
@@ -772,7 +772,7 @@ Step 2/3 : RUN npm install
  ---> Running in 16962e48fd50
 /bin/sh: npm: not found
 The command '/bin/sh -c npm install' returned a non-zero code: 127
-Q_Qhbc@localhost:/home/hbc/dfile/simpleweb/   <-    -    -    -    -    -    -    -    -    -    -  [20220824T075746]
+Q_Q/dfile/simpleweb/   <-    -    -    -    -    -    -    -    -    -    -  [20220824T075746]
 $ 
 #+END_SRC
 
@@ -781,7 +781,7 @@ $
 ** build with tag
 
 #+BEGIN_SRC 
-Q_Qhbc@localhost:/home/hbc/dfile/simpleweb/   <-    -    -    -    -    -    -    -    -    [20220824T081329]
+Q_Q/dfile/simpleweb/   <-    -    -    -    -    -    -    -    -    [20220824T081329]
 $ docker build -t billhou2022/simpleweb:v0.9.0 .
 Sending build context to Docker daemon  6.144kB
 Step 1/4 : FROM node:14-alpine
@@ -810,14 +810,14 @@ Removing intermediate container 76569a797b60
  ---> 7918bb0c39be
 Successfully built 7918bb0c39be
 Successfully tagged billhou2022/simpleweb:v0.9.0
-^_^hbc@localhost:/home/hbc/dfile/simpleweb/   <-    -    -    -    -    -    -    -    -    [20220824T081413]
+^_^/dfile/simpleweb/   <-    -    -    -    -    -    -    -    -    [20220824T081413]
 $ docker run billhou2022/simpleweb:v0.9.0
 
 > @ start /
 > node index.js
 
 Listening on port 8080
-^C^_^hbc@localhost:/home/hbc/dfile/simpleweb/   <-    -    -    -    -    -    -    -    -    [20220824T081516]
+^C^_^/dfile/simpleweb/   <-    -    -    -    -    -    -    -    -    [20220824T081516]
 $ docker run billhou2022/simpleweb:v0.9.0 -p 8080:8080
 [eval]:1
 8080:8080
@@ -831,7 +831,7 @@ SyntaxError: Unexpected token ':'
     at [eval]-wrapper:6:22
     at evalScript (internal/process/execution.js:80:60)
     at internal/main/eval_string.js:27:3
-Q_Qhbc@localhost:/home/hbc/dfile/simpleweb/   <-    -    -    -    -    -    -    -    -    [20220824T081527]
+Q_Q/dfile/simpleweb/   <-    -    -    -    -    -    -    -    -    [20220824T081527]
 $ docker run -p 8080:8080 billhou2022/simpleweb:v0.9.0 
 
 > @ start /
@@ -843,9 +843,9 @@ Listening on port 8080
 
 - curl in other term
 #+BEGIN_SRC 
-Q_Qhbc@localhost:/home/hbc/dfile/simpleweb/   <-    -    -    -    -    -    -    -    -    [20220824T081430]
+Q_Q/dfile/simpleweb/   <-    -    -    -    -    -    -    -    -    [20220824T081430]
 $ curl localhost:8080
-Hi there^_^hbc@localhost:/home/hbc/dfile/simpleweb/   <-    -    -    -    -    -    -    -    -    [20220824T081614]
+Hi there^_^/dfile/simpleweb/   <-    -    -    -    -    -    -    -    -    [20220824T081614]
 $ 
 
 #+END_SRC
@@ -880,7 +880,162 @@ COPY ./ ./
 
 
 
-* Section 5: Docker Compose with Multiple Local
+* Section 5: Docker Compose with Multiple Local Containers
+
+
+** App Overview
+
+Node + Redis
+
+Redis for count visits
+
+** App starter code
+
+* TODO note in the code
+
+** docker-compose
+- use to connect two containers
+  #+BEGIN_SRC 
+  Define and run multi-container applications with Docker.
+
+  Usage:
+    docker-compose [-f <arg>...] [--profile <name>...] [options] [--] [COMMAND] [ARGS...]
+    docker-compose -h|--help
+  #+END_SRC
+
+
+docker-compose.yml
+#+BEGIN_SRC yml
+vsrsion: '3'
+services:
+  redis-server:
+    image: 'redis'
+  node-app:
+    build: .
+    ports:
+      - "12701:8081"
+#+END_SRC
+
+
+** docker-compose up  (like docker run)
+
+
+** docker-compose up --build () 
+
+
+#+BEGIN_SRC 
+with:
+vsrsion: '3.0'
+services:
+  redis-server:
+    image: 'redis'
+  node-app:
+    build: .
+    ports:
+      - "12701:8081"
+
+
+$ docker-compose up
+ERROR: The Compose file './docker-compose.yml' is invalid because:
+'vsrsion' does not match any of the regexes: '^x-'
+
+You might be seeing this error because you're using the wrong Compose file version. Either specify a supported version (e.g "2.2" or "3.3") and place your service definitions under the `services` key, or omit the `version` key and place your service definitions at the root of the file to use version 1.
+For more on the Compose file format versions, see https://docs.docker.com/compose/compose-file/
+
+
+=====> according to https://docs.docker.com/compose/compose-file/
+remove the first line "version..."
+solve the problem
+
+#+END_SRC
+
+
+#+BEGIN_SRC bash
+$ docker-compose up
+Creating network "visits_default" with the default driver
+Building node-app
+Sending build context to Docker daemon   7.68kB
+Step 1/6 : FROM node:alpine
+ ---> eecd5234277e
+Step 2/6 : WORKDIR /app
+ ---> Using cache
+ ---> 4f5651bde9d5
+Step 3/6 : COPY ./package.json ./
+ ---> Using cache
+ ---> 55f978e4432f
+Step 4/6 : RUN npm install
+ ---> Using cache
+ ---> b9dd589856d7
+Step 5/6 : COPY ./ ./
+ ---> 984327f3ac3e
+Step 6/6 : CMD ["npm", "start"]
+ ---> Running in 14805a7621d3
+Removing intermediate container 14805a7621d3
+ ---> 31da598c8f81
+Successfully built 31da598c8f81
+Successfully tagged visits_node-app:latest
+WARNING: Image for service node-app was built because it did not already exist. To rebuild this image you must use `docker-compose build` or `docker-compose up --build`.
+Creating visits_node-app_1     ... done
+Creating visits_redis-server_1 ... done
+Attaching to visits_node-app_1, visits_redis-server_1
+redis-server_1  | 1:C 24 Aug 2022 01:14:13.354 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+redis-server_1  | 1:C 24 Aug 2022 01:14:13.355 # Redis version=7.0.4, bits=64, commit=00000000, modified=0, pid=1, just started
+redis-server_1  | 1:C 24 Aug 2022 01:14:13.355 # Warning: no config file specified, using the default config. In order to specify a config file use redis-server /path/to/redis.conf
+redis-server_1  | 1:M 24 Aug 2022 01:14:13.356 * monotonic clock: POSIX clock_gettime
+redis-server_1  | 1:M 24 Aug 2022 01:14:13.357 * Running mode=standalone, port=6379.
+redis-server_1  | 1:M 24 Aug 2022 01:14:13.357 # WARNING: The TCP backlog setting of 511 cannot be enforced because /proc/sys/net/core/somaxconn is set to the lower value of 128.
+redis-server_1  | 1:M 24 Aug 2022 01:14:13.357 # Server initialized
+redis-server_1  | 1:M 24 Aug 2022 01:14:13.357 # WARNING overcommit_memory is set to 0! Background save may fail under low memory condition. To fix this issue add 'vm.overcommit_memory = 1' to /etc/sysctl.conf and then reboot or run the command 'sysctl vm.overcommit_memory=1' for this to take effect.
+redis-server_1  | 1:M 24 Aug 2022 01:14:13.358 * Ready to accept connections
+node-app_1      | 
+node-app_1      | > start
+node-app_1      | > node index.js
+node-app_1      | 
+node-app_1      | App Listening on port 8081
+
+
+
+#+END_SRC
+
+
+** docker-compose up -d => launch in background
+
+** docker-compose down => shout down all image started by docker-compose
+
+#+BEGIN_SRC bash
+$ docker ps
+CONTAINER ID   IMAGE             COMMAND                  CREATED         STATUS         PORTS                                                  NAMES
+6156106c7056   redis             "docker-entrypoint.s…"   3 minutes ago   Up 3 minutes   6379/tcp                                               visits_redis-server_1
+d085dd7b5567   visits_node-app   "docker-entrypoint.s…"   3 minutes ago   Up 3 minutes   0.0.0.0:12701->8081/tcp, :::12701->8081/tcp            visits_node-app_1
+65a3a551bceb   mysql             "docker-entrypoint.s…"   22 hours ago    Up 22 hours    0.0.0.0:3306->3306/tcp, :::3306->3306/tcp, 33060/tcp   b-mysql
+^_^/dfile/visits/   <-    -    -    -    -    -    -    -    -    -  [20220824T091759]
+$ docker ps
+CONTAINER ID   IMAGE             COMMAND                  CREATED         STATUS         PORTS                                                  NAMES
+6156106c7056   redis             "docker-entrypoint.s…"   6 minutes ago   Up 6 minutes   6379/tcp                                               visits_redis-server_1
+d085dd7b5567   visits_node-app   "docker-entrypoint.s…"   6 minutes ago   Up 6 minutes   0.0.0.0:12701->8081/tcp, :::12701->8081/tcp            visits_node-app_1
+65a3a551bceb   mysql             "docker-entrypoint.s…"   22 hours ago    Up 22 hours    0.0.0.0:3306->3306/tcp, :::3306->3306/tcp, 33060/tcp   b-mysql
+^_^/dfile/visits/   <-    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -   [20220824T092049]
+$ docker-compose down
+Stopping visits_redis-server_1 ... done
+Stopping visits_node-app_1     ... done
+Removing visits_redis-server_1 ... done
+Removing visits_node-app_1     ... done
+Removing network visits_default
+^_^/dfile/visits/   <-    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -   [20220824T092114]
+$ docker ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED        STATUS        PORTS                                                  NAMES
+65a3a551bceb   mysql     "docker-entrypoint.s…"   22 hours ago   Up 22 hours   0.0.0.0:3306->3306/tcp, :::3306->3306/tcp, 33060/tcp   b-mysql
+^_^/dfile/visits/   <-    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -   [20220824T092116]
+$ 
+
+#+END_SRC
+
+** Container Maintenance with Compose
+
+*** TODO Restart Policies
+
+** docker-compose ps (like docker ps)
+- run in the yml file folder
 
 
 
@@ -890,7 +1045,11 @@ COPY ./ ./
 
 
 
-\^_\^hbc@localhost:/home/hbc → 
 
 
+
+
+
+<2022-08-24 Wed 09:38>
+* Section 6: Docker workflow
 
