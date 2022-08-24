@@ -1037,19 +1037,276 @@ $
 ** docker-compose ps (like docker ps)
 - run in the yml file folder
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 <2022-08-24 Wed 09:38>
+
+
+* Try to create multiple containers with different IP from same docker image
+
+- https://www.youtube.com/watch?v=WfYr8WGaubo
+
+
+*** Get IP of a container
+#+BEGIN_SRC 
+docker inspect 990d4347bfbd | egrep '"IPAddress": "[^"]+"'
+
+
+
+
+$ docker ps
+CONTAINER ID   IMAGE             COMMAND                  CREATED          STATUS          PORTS                                                  NAMES
+990d4347bfbd   redis             "docker-entrypoint.s…"   26 minutes ago   Up 26 minutes   6379/tcp                                               visits_redis-server_1
+d9cd05cf77ea   visits_node-app   "docker-entrypoint.s…"   26 minutes ago   Up 26 minutes   0.0.0.0:12701->8081/tcp, :::12701->8081/tcp            visits_node-app_1
+65a3a551bceb   mysql             "docker-entrypoint.s…"   23 hours ago     Up 23 hours     0.0.0.0:3306->3306/tcp, :::3306->3306/tcp, 33060/tcp   b-mysql
+^_^hbc@localhost:/home/hbc/dfile/visits/   <-       [20220824T095005]
+$ docker inspect 990d4347bfbd | egrep '"IPAddress": "[^"]+"'
+                    "IPAddress": "172.19.0.2",
+^_^hbc@localhost:/home/hbc/dfile/visits/   <-       -   [20220824T095007]
+$ 
+
+
+- Again
+
+$ docker ps
+CONTAINER ID   IMAGE             COMMAND                  CREATED          STATUS          PORTS                                                  NAMES
+990d4347bfbd   redis             "docker-entrypoint.s…"   26 minutes ago   Up 26 minutes   6379/tcp                                               visits_redis-server_1
+d9cd05cf77ea   visits_node-app   "docker-entrypoint.s…"   26 minutes ago   Up 26 minutes   0.0.0.0:12701->8081/tcp, :::12701->8081/tcp            visits_node-app_1
+65a3a551bceb   mysql             "docker-entrypoint.s…"   23 hours ago     Up 23 hours     0.0.0.0:3306->3306/tcp, :::3306->3306/tcp, 33060/tcp   b-mysql
+^_^hbc@localhost:/home/hbc/dfile/visits/   <-    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -   [20220824T095005]
+$ docker inspect 990d4347bfbd | egrep '"IPAddress": "[^"]+"'
+                    "IPAddress": "172.19.0.2",
+^_^hbc@localhost:/home/hbc/dfile/visits/   <-    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -   [20220824T095007]
+$ docker inspect d9cd05cf77ea | egrep '"IPAddress": "[^"]+"'
+                    "IPAddress": "172.19.0.3",
+^_^hbc@localhost:/home/hbc/dfile/visits/   <-    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -   [20220824T095138]
+$ docker inspect 65a3a551bceb | egrep '"IPAddress": "[^"]+"'
+            "IPAddress": "172.17.0.2",
+                    "IPAddress": "172.17.0.2",
+^_^hbc@localhost:/home/hbc/dfile/visits/   <-    -    -    -    -    -    -    -    -    -    -    -    -    -    [20220824T095203]
+
+
+#+END_SRC
+
+
+
+** zxhoper:
+Get the container IPs
+
+-  for id in $(docker ps | grep 'multi-containers_node-app' | awk '{print $1}'  ) ; do docker inspect $id | egrep '"IPAddress": "[^"]+"' ; done
+ 
+#+BEGIN_SRC bash
+^_^hbc@localhost:/home/hbc/dfile/visits/   <-    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    - [20220824T100710]
+$ docker ps
+CONTAINER ID   IMAGE                          COMMAND                  CREATED          STATUS         PORTS                                                  NAMES
+0679c315bffb   billhou2022/simpleweb:v0.9.8   "docker-entrypoint.s…"   8 minutes ago    Up 7 minutes   0.0.0.0:12707->8080/tcp, :::12707->8080/tcp            multi-containers_node-app-7_1
+efe5148fd52f   billhou2022/simpleweb:v0.9.8   "docker-entrypoint.s…"   8 minutes ago    Up 7 minutes   0.0.0.0:12702->8080/tcp, :::12702->8080/tcp            multi-containers_node-app-2_1
+e44f7a3af54d   billhou2022/simpleweb:v0.9.8   "docker-entrypoint.s…"   8 minutes ago    Up 7 minutes   0.0.0.0:12706->8080/tcp, :::12706->8080/tcp            multi-containers_node-app-6_1
+50af98b18d01   billhou2022/simpleweb:v0.9.8   "docker-entrypoint.s…"   8 minutes ago    Up 7 minutes   0.0.0.0:12704->8080/tcp, :::12704->8080/tcp            multi-containers_node-app-4_1
+1f135cca7ad9   billhou2022/simpleweb:v0.9.8   "docker-entrypoint.s…"   8 minutes ago    Up 7 minutes   0.0.0.0:12705->8080/tcp, :::12705->8080/tcp            multi-containers_node-app-5_1
+9a7f2f729c01   billhou2022/simpleweb:v0.9.8   "docker-entrypoint.s…"   8 minutes ago    Up 7 minutes   0.0.0.0:12701->8080/tcp, :::12701->8080/tcp            multi-containers_node-app-1_1
+5412ee242d63   billhou2022/simpleweb:v0.9.8   "docker-entrypoint.s…"   8 minutes ago    Up 7 minutes   0.0.0.0:12703->8080/tcp, :::12703->8080/tcp            multi-containers_node-app-3_1
+23dfebd03bc7   redis                          "docker-entrypoint.s…"   10 minutes ago   Up 7 minutes   6379/tcp                                               multi-containers_redis-server_1
+65a3a551bceb   mysql                          "docker-entrypoint.s…"   23 hours ago     Up 23 hours    0.0.0.0:3306->3306/tcp, :::3306->3306/tcp, 33060/tcp   b-mysql
+^_^hbc@localhost:/home/hbc/dfile/visits/   <-    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    - [20220824T100727]
+$ for id in $(docker ps | grep 'multi-containers_node-app' | awk '{print $1}'  ) ; do docker inspect $id | egrep '"IPAddress": "[^"]+"' ; done
+                    "IPAddress": "172.20.0.7",
+                    "IPAddress": "172.20.0.9",
+                    "IPAddress": "172.20.0.3",
+                    "IPAddress": "172.20.0.5",
+                    "IPAddress": "172.20.0.6",
+                    "IPAddress": "172.20.0.4",
+                    "IPAddress": "172.20.0.8",
+^_^hbc@localhost:/home/hbc/dfile/visits/   <-    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    - [20220824T100730]
+$ 
+
+#+END_SRC
+
+
+
+
+** Provide Static IP for container
+- https://stackoverflow.com/questions/39493490/provide-static-ip-to-docker-containers-via-docker-compose
+
+- Question:
+I'm trying to provide static IP address to containers. I understand that I have to create a custom network. I create it and the bridge interface is up on the host machine (Ubuntu 16.x). The containers get IP from this subnet but not the static I provided.
+#+BEGIN_SRC bash
+version: '2'
+
+services:
+  mysql:
+    container_name: mysql
+    image: mysql:latest
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    ports:
+     - "3306:3306"
+    networks:
+     - vpcbr
+
+  apigw-tomcat:
+    container_name: apigw-tomcat
+    build: tomcat/.
+    ports:
+     - "8080:8080"
+     - "8009:8009"
+    networks:
+     - vpcbr
+    depends_on:
+     - mysql
+
+networks:
+  vpcbr:
+    driver: bridge
+    ipam:
+     config:
+       - subnet: 10.5.0.0/16
+         gateway: 10.5.0.1
+         aux_addresses:
+          mysql: 10.5.0.5
+          apigw-tomcat: 10.5.0.6
+
+#+END_SRC
+
+- Answer:
+Note that I don't recommend a fixed IP for containers in Docker unless you're doing something that allows routing from outside to the inside of your container network (e.g. macvlan). DNS is already there for service discovery inside of the container network and supports container scaling. And outside the container network, you should use exposed ports on the host. With that disclaimer, here's the compose file you want:
+#+BEGIN_SRC 
+version: '2'
+
+services:
+  mysql:
+    container_name: mysql
+    image: mysql:latest
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    ports:
+     - "3306:3306"
+    networks:
+      vpcbr:
+        ipv4_address: 10.5.0.5
+
+  apigw-tomcat:
+    container_name: apigw-tomcat
+    build: tomcat/.
+    ports:
+     - "8080:8080"
+     - "8009:8009"
+    networks:
+      vpcbr:
+        ipv4_address: 10.5.0.6
+    depends_on:
+     - mysql
+
+networks:
+  vpcbr:
+    driver: bridge
+    ipam:
+     config:
+       - subnet: 10.5.0.0/16
+         gateway: 10.5.0.1
+#+END_SRC
+
+
+*** Docker-compose for multi containers works
+- docker-compose.yml
+#+BEGIN_SRC yml
+services:
+  redis-server:
+    image: 'redis'
+  node-app-1:
+    image: 'billhou2022/simpleweb:v0.9.8'
+    ports:
+      - "12701:8080"
+  node-app-2:
+    image: 'billhou2022/simpleweb:v0.9.8'
+    ports:
+      - "12702:8080"
+  node-app-3:
+    image: 'billhou2022/simpleweb:v0.9.8'
+    ports:
+      - "12703:8080"
+  node-app-4:
+    image: 'billhou2022/simpleweb:v0.9.8'
+    ports:
+      - "12704:8080"
+  node-app-5:
+    image: 'billhou2022/simpleweb:v0.9.8'
+    ports:
+      - "12705:8080"
+  node-app-6:
+    image: 'billhou2022/simpleweb:v0.9.8'
+    ports:
+      - "12706:8080"
+  node-app-7:
+    image: 'billhou2022/simpleweb:v0.9.8'
+    ports:
+      - "12707:8080"
+#+END_SRC
+
+*** improve to static ips
+
+#+BEGIN_SRC yml
+services:
+  redis-server:
+    image: 'redis'
+    networks:
+      vpcbr:
+        ipv4_address: 10.5.0.44
+        
+  node-app-1:
+    image: 'billhou2022/simpleweb:v0.9.8'
+    ports:
+      - "12701:8080"
+    networks:
+      vpcbr:
+        ipv4_address: 10.5.0.11
+          
+  node-app-2:
+    image: 'billhou2022/simpleweb:v0.9.8'
+    ports:
+      - "12702:8080"
+    networks:
+      vpcbr:
+        ipv4_address: 10.5.0.12
+          
+  node-app-3:
+    image: 'billhou2022/simpleweb:v0.9.8'
+    ports:
+      - "12703:8080"
+    networks:
+      vpcbr:
+        ipv4_address: 10.5.0.13
+        
+networks:
+  vpcbr:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.5.0.0/16
+          gateway: 10.5.0.1
+
+#+END_SRC
+
+#+BEGIN_SRC bash
+$ cd ../multi-containers-fix-IP/
+^_^hbc@localhost:/home/hbc/dfile/multi-containers-fix-IP/   <-    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    [20220824T101951]
+$ docker ps
+CONTAINER ID   IMAGE                          COMMAND                  CREATED          STATUS          PORTS                                                  NAMES
+f39e01dd008d   billhou2022/simpleweb:v0.9.8   "docker-entrypoint.s…"   21 seconds ago   Up 18 seconds   0.0.0.0:12702->8080/tcp, :::12702->8080/tcp            multi-containers-fix-ip_node-app-2_1
+0c5d918d6444   redis                          "docker-entrypoint.s…"   21 seconds ago   Up 19 seconds   6379/tcp                                               multi-containers-fix-ip_redis-server_1
+9661e7cd4a9e   billhou2022/simpleweb:v0.9.8   "docker-entrypoint.s…"   21 seconds ago   Up 19 seconds   0.0.0.0:12703->8080/tcp, :::12703->8080/tcp            multi-containers-fix-ip_node-app-3_1
+9ec4edbe80ea   billhou2022/simpleweb:v0.9.8   "docker-entrypoint.s…"   21 seconds ago   Up 19 seconds   0.0.0.0:12701->8080/tcp, :::12701->8080/tcp            multi-containers-fix-ip_node-app-1_1
+65a3a551bceb   mysql                          "docker-entrypoint.s…"   23 hours ago     Up 23 hours     0.0.0.0:3306->3306/tcp, :::3306->3306/tcp, 33060/tcp   b-mysql
+^_^hbc@localhost:/home/hbc/dfile/multi-containers-fix-IP/   <-    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    [20220824T102855]
+$ for id in $(docker ps | grep 'fix-ip_node-app' | awk '{print $1}'  ) ; do docker inspect $id | egrep '"IPAddress": "[^"]+"' ; done
+                    "IPAddress": "10.5.0.12",
+                    "IPAddress": "10.5.0.13",
+                    "IPAddress": "10.5.0.11",
+^_^hbc@localhost:/home/hbc/dfile/multi-containers-fix-IP/   <-    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    -    [20220824T102919]
+$ 
+#+END_SRC
+
+
+
 * Section 6: Docker workflow
 
